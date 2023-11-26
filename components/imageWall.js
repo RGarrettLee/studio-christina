@@ -10,17 +10,10 @@ export default function ImageWall() {
 
    useEffect(() => {
       async function getImages() {
-         await supabase.from('images').select('url, order')
+         await supabase.from('images').select('url, order, tags, height, width')
             .then((response) => {
-               let order = response.data.filter((data) => {
-                  return data.order;
-               });
-
-               let unordered = response.data.filter((data) => {
-                  return !data.order;
-               });
-
-               setImages([...[].concat(order, unordered)]);
+               response.data.sort((a, b) => a.order - b.order);
+               setImages([...response.data]);
             })
       }
 
@@ -34,10 +27,12 @@ export default function ImageWall() {
 
    return (
       <div className='flex flex-col items-center'>
-         <div className='grid grid-flow-row grid-cols-2 lg:grid-cols-3 px-12 lg:px-0 sm:w-full lg:w-5/6'>
+         <div className='grid grid-flow-row grid-cols-2 md:grid-cols-2 lg:grid-cols-3 px-12 2xl:px-0 sm:w-full lg:w-5/6'>
             {images.map((image, index) => (
                <div className='break-inside-avoid-column' key={index}>
-                  <img onClick={() => enlargeImage(image)} className='scale-100 lg:scale-75 lg:hover:scale-100 duration-300 transition-transform px-2 py-4' src={image.url} />
+                  <Image 
+                     onClick={() => enlargeImage(image)} 
+                     className='scale-100 xl:scale-75 2xl:hover:scale-100 duration-300 transition-transform px-2 py-4 select-none' src={image.url} alt={index} width={image.width} height={image.height} loading='lazy' placeholder='blur' />
                </div>
             ))}
          </div>
@@ -46,3 +41,5 @@ export default function ImageWall() {
    )
 }
 // columns-2 lg:columns-3
+// <img onClick={() => enlargeImage(image)} className='scale-100 xl:scale-75 2xl:hover:scale-100 duration-300 transition-transform px-2 py-4' src={image.url} />
+// <Image onClick={() => enlargeImage(image)} className='scale-100 xl:scale-75 2xl:hover:scale-100 duration-300 transition-transform px-2 py-4' src={image.url} alt={index} width={image.width} height={image.height} blurDataURL={image.url} placeholder='blur' />

@@ -30,9 +30,7 @@ export default function ImageWall() {
          <div className='grid grid-flow-row grid-cols-2 md:grid-cols-2 lg:grid-cols-3 px-12 2xl:px-0 sm:w-full lg:w-5/6'>
             {images.map((image, index) => (
                <div className='break-inside-avoid-column' key={index}>
-                  <Image 
-                     onClick={() => enlargeImage(image)} 
-                     className='scale-100 xl:scale-75 2xl:hover:scale-100 duration-300 transition-transform px-2 py-4 select-none' src={image.url} alt={index} width={image.width} height={image.height} loading='lazy' placeholder='blur' />
+                  <Image onClick={() => enlargeImage(image)} className='scale-100 xl:scale-75 2xl:hover:scale-100 duration-300 transition-transform px-2 py-4 select-none' src={image.url} alt={index} width={image.width} height={image.height} loading='lazy' placeholder='blur' />
                </div>
             ))}
          </div>
